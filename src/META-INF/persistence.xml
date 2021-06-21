@@ -4,17 +4,21 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
 
-	<persistence-unit name="sysleding" 
+	<persistence-unit name="fichamento" 
 		transaction-type="RESOURCE_LOCAL">
 		
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		 <class>br.com.fichamento.modelo.Ficha</class>
+		 <class>br.com.fichamento.modelo.Usuario</class>
+		 <class>br.com.fichamento.modelo.Livro</class>
 
 		<properties>
 			<property name="hibernate.connection.driver_class" value="oracle.jdbc.driver.OracleDriver" />
 			<property name="hibernate.connection.url"
 				value="jdbc:oracle:thin:@localhost:1521/xe" />
-			<property name="hibernate.connection.username" value="cursoplsql" />
-			<property name="hibernate.connection.password" value="cursoplsql" />
+			<property name="hibernate.connection.username" value="fichamento" />
+			<property name="hibernate.connection.password" value="fichamento" />
 
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />

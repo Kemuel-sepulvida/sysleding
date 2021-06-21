@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="fichaId" value="#{fichaBean.ficha.id}" />
+		<f:viewAction action="#{fichaBean.carregarFichaPelaId}"
+			if="#{param.fichaId != null}" />
+	</f:metadata>
+
+
+	<ui:define name="titulo">
+		<p:outputPanel>Novo Fichamento</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="formficha">
+
+			<p:messages id="messages" />
+
+			<p:fieldset legend="Dados do ficha">
+				<p:panelGrid columns="2">
+
+					<p:outputLabel value="Titulo:" for="titulo" />
+					<p:inputText id="titulo" value="#{fichaBean.ficha.titulo}"
+						required="true" requiredMessage="Título obrigatório"
+						validatorMessage="Título não pode ser superior a 40">
+						<f:validateLength maximum="40" />
+						<f:ajax event="blur" render="messages" />
+					</p:inputText>
+
+					<p:outputLabel value="Assunto:" for="assunto" />
+					<p:inputMask id="assunto" value="#{fichaBean.ficha.assunto}" />
+
+					<p:outputLabel value="Tipo de Fichamento:" for="tipoFichamento" />
+					<p:inputText id="tipoFichamento"
+						value="#{fichaBean.ficha.tipoDeFichamento}" />
+
+					<p:outputLabel value="Trecho:" for="trecho" />
+					<p:inputTextarea id="trecho" value="#{fichaBean.ficha.trecho}"
+						rows="6" cols="33" />
+
+					<p:outputLabel value="Autor:" for="autor" />
+					<p:inputText id="autor" value="#{fichaBean.ficha.autor}" />
+
+					<p:outputLabel value="Link:" for="link" />
+					<p:inputText id="link" value="#{fichaBean.ficha.link}" />
+
+					<p:outputLabel value="Comentário:" for="comentario" />
+					<p:inputTextarea id="comentario"
+						value="#{fichaBean.ficha.comentario}" rows="6" cols="33" />
+
+					<p:outputLabel value="Data Fichamento:" for="dataFichamento" />
+					<p:calendar id="dataFichamento"
+						value="#{fichaBean.ficha.dataFichamento.time}"
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true"
+						disabled="true" />
+
+				</p:panelGrid>
+
+			</p:fieldset>
+
+
+			<br />
+
+			<p:fieldset style="text-align:center;">
+				<p:commandButton value="Gravar ficha" action="#{fichaBean.gravar}"
+					process="@form" update="@form :formTabelafichas:tabelafichas">
+					<p:confirm type="popup" header="Confirmation"
+						message="Are you sure you want to proceed?"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+
+
+
+
+				<p:commandButton value="Cancelar" action="#{fichaBean.limpaCampos}"
+					>
+					
+					<p:confirm type="popup" header="Confirmation"
+						message="Are you sure you want to proceed?"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>		
+						
+				<p:growl id="message" showDetail="true" />
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					responsive="true" width="350">
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no ui-button-flat" />
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" />
+				</p:confirmDialog>
+
+
+			</p:fieldset>
+
+
+
+		</h:form>
+
+		<br />
+		<br />
+
+		<h:form id="formTabelafichas">		
+			<p:dataTable value="#{fichaBean.fichas}" var="ficha"
+				id="tabelafichas" paginator="true" rows="5">
+				<f:facet name="header">fichas</f:facet>
+				<p:column headerText="Título" sortBy="#{ficha.titulo}"
+					filterBy="#{ficha.titulo}" filterMatchMode="startsWith">
+					<h:outputText value="#{ficha.titulo}" />
+				</p:column>
+				<p:column headerText="Assunto" sortBy="#{ficha.assunto}">
+					<h:outputText value="#{ficha.assunto}" />
+				</p:column>
+				<p:column headerText="Trecho" sortBy="#{ficha.trecho}">
+					<h:outputText value="#{ficha.trecho}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Link" sortBy="#{ficha.link}">
+					<h:outputText value="#{ficha.link}">
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Alterar">
+					<p:commandButton update=":formficha" process="@this"
+						value="alterar" actionListener="#{fichaBean.carregar(ficha)}"
+						icon="fa fa-fw fa-edit" action="titulo?faces-redirect=true" />
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton update="@form" process="@this" value="remover"
+						actionListener="#{fichaBean.remover(ficha)}"
+						icon="fa fa-fw fa-remove" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

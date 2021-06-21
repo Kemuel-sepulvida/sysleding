@@ -7,8 +7,8 @@
 
 
 	<lifecycle>
-		<phase-listener>br.com.bibliomania.sysleding.util.Autorizador</phase-listener>
-		<phase-listener>br.com.bibliomania.sysleding.util.LogPhaseListener</phase-listener>
+		<phase-listener>br.com.fichamento.util.Autorizador</phase-listener>
+		<phase-listener>br.com.fichamento.util.LogPhaseListener</phase-listener>
 	</lifecycle>
 
 </faces-config>
